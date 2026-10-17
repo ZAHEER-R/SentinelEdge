@@ -1,0 +1,47 @@
+model:
+  name: yolov8n.pt
+  confidence: 0.35
+  iou: 0.45
+  device: auto
+classes:
+  vehicle:
+  - car
+  - truck
+  - bus
+  - motorcycle
+  - bicycle
+tracking:
+  tracker: bytetrack.yaml
+  persist: true
+counting:
+  line_position: 0.55
+  direction_up: UP
+  direction_down: DOWN
+display:
+  show_ids: true
+  show_centroids: true
+  show_counts: true
+  box_thickness: 2
+  font_scale: 0.55
+  line_thickness: 3
+  line_color:
+  - 255
+  - 0
+  - 0
+  text_bg_color:
+  - 0
+  - 0
+  - 0
+output:
+  codec: mp4v
+  fps_fallback: 25.0
+  save_annotated: true
+  mqtt_topic: traffic/counts
+  json_every_n_frames: 30
+mqtt:
+  enabled: false
+  host: 127.0.0.1
+  port: 1883
+  topic: traffic/counts
+  qos: 0
+  keepalive: 30
