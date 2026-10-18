@@ -25,3 +25,5 @@ output/*
 !output/.gitkeep
 backup_before_fixes_*/
 *.tmp
+*.backup
+evidence/*.mp4

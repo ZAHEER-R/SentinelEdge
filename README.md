@@ -22,10 +22,10 @@
 
 ## What This Repository Contains
 
-This is a **complete Track A submission package**.
+This repository currently contains a CPU-compatible traffic analytics reference pipeline and a Streamlit dashboard. The PipeGen-generated TensorRT/DeepStream pipeline, export, and benchmark evidence are still pending; this is not yet a complete PipeGen submission.
 
-1. **PipeGen is the core**
-   The vision pipeline is defined and compiled through CraftifAI PipeGen (Requirement → Pipeline IR → Model → Compiler → Run). The generated TensorRT + DeepStream application is the load-bearing component.
+1. **PipeGen integration — pending**
+   The intended final system uses CraftifAI PipeGen to generate a TensorRT + DeepStream application. The current working implementation is the CPU-compatible Python reference pipeline; PipeGen compilation, export, and TensorRT benchmarking have not yet been verified.
 
 2. **Actionable outputs**
    - Live annotated display
