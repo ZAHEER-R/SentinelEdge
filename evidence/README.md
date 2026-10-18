@@ -11,5 +11,3 @@ Place the two required screenshots here before submission:
 You may also add:
 
 - Live run screenshots
-- Short demo video of the pipeline running
-- MQTT / JSON output examples
