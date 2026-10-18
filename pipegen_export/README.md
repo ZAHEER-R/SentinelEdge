@@ -1,7 +1,5 @@
 # PipeGen Export Folder
 
-# pipegen_export
-
 **Project:** SentinelEdge – Smart Traffic Analytics
 **Team:** ZexTech team – 6e656f84
 **Author:** Zaheer Rachakula
