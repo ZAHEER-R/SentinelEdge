@@ -26,221 +26,412 @@ st.set_page_config(
 
 # --------------------------- Design system ---------------------------
 
-st.markdown(
-    """
-    <style>
-   
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
+st.markdown("""
+<style>
 :root {
-    --bg: var(--background-color);
-    --panel: var(--secondary-background-color);
-    --panel2: var(--secondary-background-color);
-    --border: var(--border-color);
-    --text: var(--text-color);
-    --cyan: var(--primary-color);
-    --green: #16865B;
+    --ta-bg: #080E19;
+    --ta-surface: #101A2B;
+    --ta-surface-2: #17243A;
+    --ta-border: #2A3B54;
+    --ta-text: #EDF4FF;
+    --ta-muted: #A9B8CC;
+    --ta-accent: #51D7F5;
+    --ta-accent-text: #07151C;
+    --ta-success: #72E8BB;
+    --ta-shadow: 0 10px 30px rgba(0,0,0,.16);
+    --ta-radius: 18px;
 }
 
+/* ---------- Global layout ---------- */
 html, body, [class*="css"] {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", sans-serif;
 }
 
-.stApp {
-    background: var(--bg);
-    color: var(--text);
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {
+    background: var(--ta-bg) !important;
+    color: var(--ta-text) !important;
+}
+
+[data-testid="stMainBlockContainer"] {
+    max-width: 1500px;
+    padding-top: 1.6rem !important;
+    padding-bottom: 3rem !important;
 }
 
 [data-testid="stHeader"] {
-    background: var(--bg);
+    background: var(--ta-bg) !important;
+    border-bottom: 1px solid var(--ta-border);
+    z-index: 1000;
 }
 
-[data-testid="stSidebar"] {
-    background: var(--panel);
-    border-right: 1px solid var(--border);
+[data-testid="stToolbar"] {
+    background: transparent !important;
 }
 
-/* Do not force a hardcoded white or light text colour on every
-   sidebar child. Let Streamlit use the selected theme's text colour. */
-
-h1, h2, h3 {
-    color: var(--text);
-    letter-spacing: -0.025em;
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, p, label, li,
+[data-testid="stMarkdownContainer"] {
+    color: var(--ta-text);
 }
 
 h1 {
-    font-size: 2.05rem !important;
+    font-size: clamp(1.8rem, 3vw, 2.35rem) !important;
     font-weight: 800 !important;
+    letter-spacing: -.045em;
+    line-height: 1.2 !important;
 }
 
 h2 {
     font-size: 1.45rem !important;
-    font-weight: 700 !important;
+    font-weight: 750 !important;
+    letter-spacing: -.025em;
 }
 
 h3 {
     font-size: 1.08rem !important;
-    font-weight: 650 !important;
+    font-weight: 700 !important;
 }
 
-p, label, .stMarkdown {
+p {
     line-height: 1.65;
 }
 
+small,
+.muted,
+[data-testid="stCaptionContainer"] {
+    color: var(--ta-muted) !important;
+}
+
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] > div:first-child {
+    background: var(--ta-surface) !important;
+    border-right: 1px solid var(--ta-border);
+}
+
+[data-testid="stSidebar"] * {
+    color: var(--ta-text);
+}
+
+[data-testid="stSidebar"] hr {
+    border-color: var(--ta-border);
+}
+
+[data-testid="stRadio"] label {
+    border-radius: 10px;
+}
+
+[data-testid="stRadio"] label:hover {
+    background: var(--ta-surface-2);
+}
+
+/* ---------- Overview hero ---------- */
 .hero {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 26px 28px;
-    margin: 5px 0 24px;
-    color: var(--text);
-    animation: fadein .35s ease-out;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        125deg, var(--ta-surface-2), var(--ta-surface)
+    );
+    border: 1px solid var(--ta-border);
+    border-radius: 22px;
+    padding: clamp(22px, 4vw, 36px);
+    margin: 4px 0 28px;
+    box-shadow: var(--ta-shadow);
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    right: -70px;
+    bottom: -100px;
+    border: 1px solid var(--ta-border);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .eyebrow {
-    color: var(--cyan);
-    font-size: .75rem;
-    letter-spacing: .15em;
+    color: var(--ta-accent) !important;
+    font-size: .72rem;
     font-weight: 800;
+    letter-spacing: .16em;
     text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
 .hero-title {
-    color: var(--text);
-    font-size: 2rem;
+    color: var(--ta-text) !important;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
     line-height: 1.2;
     font-weight: 800;
-    margin: 8px 0;
+    letter-spacing: -.045em;
+    margin: 5px 0 12px;
 }
 
-.muted {
-    color: var(--text);
-    opacity: .72;
-    font-size: .9rem;
+.hero .muted {
+    max-width: 740px;
+    font-size: .96rem;
 }
 
+/* ---------- KPI cards ---------- */
 .metric-card {
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 15px;
-    padding: 18px;
-    min-height: 124px;
-    transition: transform .18s ease, border-color .18s ease,
-                box-shadow .18s ease;
-    animation: fadein .3s ease-out;
+    background: var(--ta-surface);
+    border: 1px solid var(--ta-border);
+    border-radius: var(--ta-radius);
+    padding: 20px;
+    min-height: 132px;
+    box-shadow: var(--ta-shadow);
+    transition: transform .18s ease, border-color .18s ease;
 }
 
 .metric-card:hover {
     transform: translateY(-3px);
-    border-color: var(--cyan);
-    box-shadow: 0 9px 24px rgba(50, 80, 120, .12);
+    border-color: var(--ta-accent);
 }
 
 .metric-label {
-    color: var(--text);
-    opacity: .72;
+    color: var(--ta-muted) !important;
     text-transform: uppercase;
-    letter-spacing: .07em;
-    font-size: .73rem;
-    font-weight: 700;
+    letter-spacing: .09em;
+    font-size: .7rem;
+    font-weight: 750;
 }
 
 .metric-value {
-    color: var(--text);
-    font-size: 2rem;
+    color: var(--ta-text) !important;
+    font-size: clamp(1.65rem, 2.5vw, 2.1rem);
     font-weight: 800;
-    line-height: 1.4;
+    line-height: 1.55;
+    letter-spacing: -.04em;
+    overflow-wrap: anywhere;
 }
 
 .metric-foot {
-    color: var(--cyan);
+    color: var(--ta-accent) !important;
     font-size: .78rem;
+    font-weight: 600;
 }
 
-.panel {
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 16px;
+/* ---------- Content panels ---------- */
+.panel,
+.source-card {
+    background: var(--ta-surface);
+    color: var(--ta-text);
+    border: 1px solid var(--ta-border);
+    border-radius: var(--ta-radius);
     padding: 20px;
-    margin: 8px 0 16px;
+    margin: 8px 0 18px;
 }
 
 .source-card {
-    background: var(--panel);
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    padding: 15px;
-    min-height: 110px;
+    min-height: 100px;
     transition: border-color .18s ease, transform .18s ease;
 }
 
 .source-card:hover {
-    border-color: var(--cyan);
+    border-color: var(--ta-accent);
     transform: translateY(-2px);
 }
 
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: color-mix(
+        in srgb, var(--ta-success) 12%, transparent
+    );
+    border: 1px solid color-mix(
+        in srgb, var(--ta-success) 42%, transparent
+    );
+    color: var(--ta-success) !important;
+    font-size: .74rem;
+    font-weight: 750;
+}
+
+/* ---------- Buttons ---------- */
 div.stButton > button,
 div.stDownloadButton > button {
-    border-radius: 10px;
-    font-weight: 650;
     min-height: 43px;
-    transition: transform .15s ease, filter .15s ease;
+    border-radius: 11px;
+    padding: 8px 16px;
+    font-weight: 700;
+    border: 1px solid var(--ta-border);
+    color: var(--ta-text) !important;
+    background: var(--ta-surface-2) !important;
+    transition: border-color .18s ease, filter .18s ease;
 }
 
 div.stButton > button:hover,
 div.stDownloadButton > button:hover {
-    transform: translateY(-1px);
-    border-color: var(--cyan);
+    border-color: var(--ta-accent) !important;
+    filter: brightness(1.08);
 }
 
-div.stButton > button[kind="primary"] {
-    background: var(--primary-color);
-    border: 1px solid var(--primary-color);
-    color: #FFFFFF;
+div.stButton > button[kind="primary"],
+div.stDownloadButton > button[kind="primary"] {
+    background: var(--ta-accent) !important;
+    border-color: var(--ta-accent) !important;
+    color: var(--ta-accent-text) !important;
 }
 
-div[data-testid="stExpander"] {
-    border: 1px solid var(--border);
-    border-radius: 12px;
+div.stButton > button[kind="primary"] *,
+div.stDownloadButton > button[kind="primary"] * {
+    color: var(--ta-accent-text) !important;
 }
 
-[data-testid="stDataFrame"] {
-    border: 1px solid var(--border);
+/* ---------- Inputs and dropdown controls ---------- */
+[data-baseweb="input"],
+[data-baseweb="textarea"],
+[data-baseweb="select"] > div,
+[data-testid="stTextInput"] input,
+[data-testid="stNumberInput"] input,
+[data-testid="stTextArea"] textarea,
+[data-testid="stDateInput"] input,
+[data-testid="stTimeInput"] input {
+    background: var(--ta-surface) !important;
+    color: var(--ta-text) !important;
+    border-color: var(--ta-border) !important;
+    border-radius: 10px !important;
+}
+
+input,
+textarea,
+[data-baseweb="select"] *,
+[data-baseweb="input"] *,
+[data-baseweb="textarea"] * {
+    color: var(--ta-text) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--ta-muted) !important;
+    opacity: .9;
+}
+
+/* ---------- Opaque menus and popovers ---------- */
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] > div,
+div[data-baseweb="menu"],
+[data-testid="stPopover"],
+[data-testid="stPopoverBody"],
+[role="listbox"],
+[role="menu"] {
+    background: var(--ta-surface) !important;
+    color: var(--ta-text) !important;
+    border-color: var(--ta-border) !important;
+    box-shadow: var(--ta-shadow) !important;
+}
+
+[role="option"],
+[role="menuitem"],
+[role="listbox"] *,
+[role="menu"] *,
+[data-baseweb="popover"] * {
+    color: var(--ta-text) !important;
+}
+
+[role="option"]:hover,
+[role="menuitem"]:hover,
+[role="menu"] button:hover {
+    background: var(--ta-surface-2) !important;
+}
+
+/* ---------- Tabs, expanders and tables ---------- */
+[data-testid="stExpander"] {
+    border: 1px solid var(--ta-border) !important;
+    border-radius: 13px !important;
+    overflow: hidden;
+}
+
+[data-testid="stExpander"] summary {
+    color: var(--ta-text) !important;
+    background: var(--ta-surface);
+}
+
+[data-testid="stTabs"] button {
+    color: var(--ta-text) !important;
+}
+
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+    border: 1px solid var(--ta-border);
     border-radius: 12px;
     overflow: hidden;
 }
 
-.status-pill {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-    background: color-mix(in srgb, var(--green) 12%, var(--bg));
-    border: 1px solid color-mix(in srgb, var(--green) 40%, var(--border));
-    color: var(--text);
-    font-size: .75rem;
-    font-weight: 700;
+/* ---------- File uploader ---------- */
+[data-testid="stFileUploader"] section {
+    background: var(--ta-surface) !important;
+    border: 1px dashed var(--ta-border) !important;
+    border-radius: 14px;
 }
 
-@keyframes fadein {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+[data-testid="stFileUploader"] section * {
+    color: var(--ta-text) !important;
+}
+
+/* ---------- Alerts and links ---------- */
+[data-testid="stAlert"],
+[data-testid="stNotification"] {
+    border-radius: 12px;
+}
+
+a {
+    color: var(--ta-accent) !important;
+}
+
+/* ---------- Annotated video ---------- */
+[data-testid="stVideo"] {
+    border: 1px solid var(--ta-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: var(--ta-shadow);
+}
+
+video {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #000;
+}
+
+/* ---------- Responsive layout ---------- */
+@media (max-width: 768px) {
+    [data-testid="stMainBlockContainer"] {
+        padding: 1rem .8rem 2rem !important;
+    }
+
+    .hero {
+        border-radius: 16px;
+        padding: 22px 18px;
+        margin-bottom: 20px;
+    }
+
+    .metric-card {
+        padding: 15px;
+        min-height: 110px;
+    }
+
+    .metric-value {
+        font-size: 1.6rem;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
-        animation-duration: .01ms !important;
         transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
     }
 }
-
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
+</style>
+""", unsafe_allow_html=True)
 
 # --------------------------- Report helpers ---------------------------
 
