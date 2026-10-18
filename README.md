@@ -7,7 +7,15 @@
 | **Author** | Zaheer Rachakula |
 | **Track** | CraftifAI Physical AI Hackathon – Track A (Perception) |
 | **Live demo** | https://zaheer-traffic-analyzer.streamlit.app/ |
-| **Problem** | Traffic & Crosswalk Analytics – live per-class UP/DOWN vehicle counts |
+| **Problem** | Traffic & Crosswalk Analytics – live per-class UP/DOWN vehicle counts crossed traffic signals |
+
+## Preview
+
+### Image 1
+![Preview 1](1.png)
+
+### Image 2
+![Preview 2](2.png)
 
 ---
 
